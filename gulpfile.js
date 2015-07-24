@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
 	uglify = require('gulp-uglify'),
+	minifyInline = require('gulp-minify-inline'),
 	minifyCSS = require('gulp-minify-css'),
 	imagemin = require('gulp-imagemin'),
 	pngquant = require('imagemin-pngquant'),
@@ -30,10 +31,11 @@ gulp.task('imagemin', function(){
 		.pipe(gulp.dest('dist/img'));
 });
 
-// Minifies the HTML file and outputs it to dist/*.html
+// Minifies the HTML, minifies inline JS and CSS, outputs it to dist/*.html
 gulp.task('content', function() {
     return gulp.src('*.html')
         .pipe(minifyhtml())
+        .pipe(minifyInline())
         .pipe(gulp.dest('dist/'));
 });
 
