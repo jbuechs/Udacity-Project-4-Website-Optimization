@@ -71,16 +71,13 @@
     <footer>
       <p>&copy; Web Performance 2014 <span id="crp-stats"></span></p>
     </footer>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
   <script>
-   WebFontConfig = {
-      typekit: { id: 'gks1lnl' }
-   };
-
-   (function(d) {
-      var wf = d.createElement('script'), s = d.scripts[0];
-      wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js';
-      s.parentNode.insertBefore(wf, s);
-   })(document);
-</script>
+    WebFont.load({
+      google: {
+        families: ['Open Sans']
+      }
+    });
+  </script>
   </body>
 </html>
