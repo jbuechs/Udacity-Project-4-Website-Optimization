@@ -507,7 +507,7 @@ function updatePositions() {
   for (i = 0; i < 5; i++) {
     phaseList.push(Math.sin((document.body.scrollTop / 1250) + i));
   }
-  for (var i = 0, len = items.length; i < len; i++) {
+  for (i = 0, len = items.length; i < len; i++) {
       transX = String(items[i].basicLeft + 100 * phaseList[i % 5] + 'px');
       items[i].style.transform = 'translateX(' + transX + ')';
   }

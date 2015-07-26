@@ -25,20 +25,23 @@ In order to optimize the speed for the homepage, I did the following:
 
 As a result of the changes I made, the webpage received a speed score of **94/100** for Mobile and **93/100** for desktop.
 
-####Part 2: Optimize Frames per Second in pizza.html
+##Part 2: Optimize Frames per Second in pizza.html
 
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js.
+The pizza.html webpage was rendering at < 30fps for scrolling. Also, resizing the pizza on the slider took an average of > 200 ms.
 
-You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
+####Optimizing the Scrolling
 
-### Optimization Tips and Tricks
-* [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
-* [Analyzing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "analyzing crp")
-* [Optimizing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/optimizing-critical-rendering-path.html "optimize the crp!")
-* [Avoiding Rendering Blocking CSS](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css.html "render blocking css")
-* [Optimizing JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript.html "javascript")
-* [Measuring with Navigation Timing](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/measure-crp.html "nav timing api"). We didn't cover the Navigation Timing API in the first two lessons but it's an incredibly useful tool for automated page profiling. I highly recommend reading.
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads.html">The fewer the downloads, the better</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">Reduce the size of text</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">Optimize images</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP caching</a>
+I made the following changes in order to optimize the scrolling:
+
+1. In main.js, there was a loop that created 200 small moving pizzas in the background, which was an overkill because not all were displayed. I was able to cut that down to 21.
+2. The updatePositions function had calculations within a loop that were redundant and could be moved outside of the loop.
+3. The updatePositions function used the CSS left property to move the pizzas. By changing this to the CSS transform property, it no longer triggered layout or paint in the timeline.
+
+####Optimizing the Pizza Resizing
+
+I made the following changes to optimize the pizza resizing:
+
+1. The changePizzaSlices function was using an inefficient selector to get all of the pizza elements. I changed it to select by element type and saved the elements in an array.
+2. The changePizzaSlices had a very inefficient for loop. I moved some calculations out of the for loop.
+
+These changes resulted in the resizing going from ~200 ms to < 5 ms.
