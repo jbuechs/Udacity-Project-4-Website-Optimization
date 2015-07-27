@@ -469,8 +469,8 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -501,14 +501,11 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-  var phaseList = [];
   var transX;
   var items = document.getElementsByClassName('mover');
-  for (i = 0; i < 5; i++) {
-    phaseList.push(Math.sin((document.body.scrollTop / 1250) + i));
-  }
-  for (i = 0, len = items.length; i < len; i++) {
-      transX = String(items[i].basicLeft + 100 * phaseList[i % 5] + 'px');
+  var top = document.body.scrollTop / 1250;
+  for (var i = 0, len = items.length; i < len; i++) {
+      transX = Math.sin(top + (i % 5)) * 100 + 'px';
       items[i].style.transform = 'translateX(' + transX + ')';
   }
 
@@ -527,18 +524,19 @@ window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
+  var elem;
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 21; i++) {
-    var elem = document.createElement('img');
+  var movingPizzas = document.getElementById('movingPizzas1');
+  for (var i = 0; i < 40; i++) {
+    elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
-    elem.transform = 0;
+    elem.style.left = (i % cols) * s + 'px';
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    movingPizzas.appendChild(elem);
   }
   updatePositions();
 });
